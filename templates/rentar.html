@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="rental-form-section">
+        {% if mensaje %}
+        <div class="confirmation-message">
+            <div class="message-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="message-content">
+                <h3>¡Renta Exitosa!</h3>
+                <p>{{ mensaje }}</p>
+                <div class="receipt-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Película:</span>
+                        <span class="detail-value">{{ pelicula.title }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Duración:</span>
+                        <span class="detail-value">{{ pelicula.rental_duration }} días</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Costo total:</span>
+                        <span class="detail-value">${{ pelicula.rental_rate }}</span>
+                    </div>
+                    <div class="receipt-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Cliente:</span>
+                            <span class="detail-value">{{ nombre }} {{ apellido }}</span>
+                        </div>
+                </div>
+                <a href="{{ url_for('index') }}" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Volver al catálogo
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="rental-header">
+            <h2>Rentar: {{ pelicula.title }} ({{ pelicula.release_year }})</h2>
+            <div class="movie-details">
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Duración:</span>
+                        <span class="detail-value">{{ pelicula.length }} minutos</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Categorías:</span>
+                        <span class="detail-value">{{ pelicula.categories }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Costo de reemplazo:</span>
+                        <span class="detail-value">${{ pelicula.replacement_cost }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rental-summary">
+                <div class="summary-item highlight">
+                    <span>Costo de renta:</span>
+                    <span class="highlight-price">${{ pelicula.rental_rate }}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Duración de renta:</span>
+                    <span>{{ pelicula.rental_duration }} días</span>
+                </div>
+            </div>
+        </div>
+        
+        <form method="POST" class="rental-form">
+            <div class="form-group">
+                <label for="nombre">Nombre*</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <i class="fas fa-user form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="apellido">Apellido*</label>
+                <input type="text" id="apellido" name="apellido" required>
+                <i class="fas fa-user form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo Electrónico*</label>
+                <input type="email" id="email" name="email" required>
+                <i class="fas fa-envelope form-icon"></i>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-check-circle"></i> Confirmar Renta
+                </button>
+                <a href="{{ url_for('index') }}" class="cancel-button">
+                    <i class="fas fa-times-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+        {% endif %}
+    </section>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pelicula.title }} - FilmRent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detalle.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="movie-detail-section">
+    <div class="container">
+        <a href="{{ url_for('index') }}" class="back-link">← Volver al catálogo</a>
+        
+        <div class="movie-detail-container">
+            <!-- Portada de la película -->
+            <div class="movie-poster">
+                <img src="https://via.placeholder.com/400x600?text={{ pelicula.title|urlencode }}" 
+                     alt="{{ pelicula.title }}" class="poster-img">
+                <div class="movie-badge">${{ pelicula.rental_rate }} / día</div>
+            </div>
+            
+            <!-- Información de la película -->
+            <div class="movie-info">
+                <h1 class="movie-title">{{ pelicula.title }} <span>({{ pelicula.release_year }})</span></h1>
+                
+                <div class="movie-meta">
+                    <span class="meta-item">{{ pelicula.length }} minutos</span>
+                    <span class="meta-item">{{ pelicula.language }}</span>
+                    {% for categoria in categorias %}
+                    <span class="meta-item category">{{ categoria.name }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="movie-actions">
+                    <a href="{{ url_for('rentar', film_id=pelicula.film_id) }}" class="btn btn-rent">Rentar ahora</a>
+                    <button class="btn btn-wishlist">+ Lista de deseos</button>
+                </div>
+                
+                <div class="movie-description">
+                    <h3>Sinopsis</h3>
+                    <p>{{ pelicula.description }}</p>
+                </div>
+                
+                <div class="movie-cast">
+                    <h3>Reparto</h3>
+                    <div class="cast-grid">
+                        {% for actor in actores %}
+                        <div class="cast-card">
+                            <div class="actor-photo">
+                                <img src="https://via.placeholder.com/100x100?text={{ actor.first_name|urlencode }}+{{ actor.last_name|urlencode }}" 
+                                     alt="{{ actor.first_name }} {{ actor.last_name }}">
+                            </div>
+                            <div class="actor-info">
+                                <h4>{{ actor.first_name }} {{ actor.last_name }}</h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="movie-pricing">
+                    <h3>Detalles de renta</h3>
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <h4>Precio por día</h4>
+                            <p>${{ pelicula.rental_rate }}</p>
+                        </div>
+                        <div class="pricing-card">
+                            <h4>Costo de reemplazo</h4>
+                            <p>${{ pelicula.replacement_cost }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
