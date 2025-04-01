@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from math import ceil
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 # Configuración de la base de datos
 db_config = {
